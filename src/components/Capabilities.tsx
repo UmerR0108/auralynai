@@ -31,7 +31,7 @@ const Capabilities = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center relative z-10">
           <div className="space-y-6">
             {features.map((feature, index) => (
               <div key={index} className="flex items-center space-x-4 group animate-fade-in hover:translate-x-1 transition-all duration-300" style={{animationDelay: `${index * 0.1}s`}}>

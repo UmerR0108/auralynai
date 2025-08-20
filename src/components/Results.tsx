@@ -22,7 +22,7 @@ const Results = () => {
         </div>
 
         {/* Performance Metrics */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div className="grid md:grid-cols-3 gap-8 mb-16 relative z-10">
           <Card className="group p-8 text-center bg-card/30 backdrop-blur-sm border-border/30 hover:border-primary/30 transition-all duration-300 animate-fade-in">
             <div className="text-4xl font-bold text-primary mb-2 group-hover:scale-105 transition-transform duration-300">49%</div>
             <div className="text-muted-foreground mb-2">Call desk</div>

@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Quote } from "lucide-react";
+import FloatingElements from "./FloatingElements";
 
 const CaseStudies = () => {
   const cases = [
@@ -55,13 +56,7 @@ const CaseStudies = () => {
 
   return (
     <section id="case-studies" className="py-24 relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute inset-0 opacity-15">
-        <div className="absolute top-32 left-16 w-44 h-44 bg-gradient-to-br from-primary/25 to-accent/25 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-32 right-16 w-60 h-60 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-full blur-3xl animate-float" style={{animationDelay: '2.5s'}}></div>
-        <div className="absolute top-1/4 right-1/3 w-36 h-36 bg-accent/15 rounded-full blur-2xl animate-drift"></div>
-        <div className="absolute bottom-1/4 left-1/3 w-28 h-28 bg-primary/20 rounded-full blur-xl animate-drift" style={{animationDelay: '4s'}}></div>
-      </div>
+      <FloatingElements variant="minimal" />
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-sm text-primary-glow font-medium mb-6">
