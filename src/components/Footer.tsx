@@ -5,9 +5,11 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-hero rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold">A</span>
-              </div>
+              <img 
+                src="/lovable-uploads/36c969d9-2d19-4347-ac2d-236764962c0e.png" 
+                alt="Auralyn AI Logo" 
+                className="w-8 h-8"
+              />
               <span className="text-xl font-bold text-foreground">Auralyn AI</span>
             </div>
             <p className="text-muted-foreground">

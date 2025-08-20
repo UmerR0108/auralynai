@@ -5,9 +5,11 @@ const Navigation = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/10 backdrop-blur-md border-b border-border/20">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-hero rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold">A</span>
-          </div>
+          <img 
+            src="/lovable-uploads/36c969d9-2d19-4347-ac2d-236764962c0e.png" 
+            alt="Auralyn AI Logo" 
+            className="w-8 h-8"
+          />
           <span className="text-xl font-bold text-foreground">Auralyn AI</span>
         </div>
         
