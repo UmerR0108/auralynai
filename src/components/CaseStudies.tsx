@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Quote } from "lucide-react";
 import FloatingElements from "./FloatingElements";
+import { motion } from "framer-motion";
 
 const CaseStudies = () => {
   const cases = [
@@ -55,95 +56,190 @@ const CaseStudies = () => {
   ];
 
   return (
-    <section id="case-studies" className="py-24 relative overflow-hidden">
+    <motion.section 
+      id="case-studies" 
+      className="py-24 relative overflow-hidden"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true, margin: "-100px" }}
+    >
       <FloatingElements variant="minimal" />
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-sm text-primary-glow font-medium mb-6">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <motion.span 
+            className="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-sm text-primary-glow font-medium mb-6"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
             SUCCESS STORIES
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          </motion.span>
+          <motion.h2 
+            className="text-4xl md:text-5xl font-bold mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
             Real results from real businesses
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            className="text-xl text-muted-foreground max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
             See how Auralyn AI helped dental clinics, auto body shops, and medical spas transform their customer experience.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {cases.map((caseStudy, index) => (
-            <Card key={index} className="group p-8 bg-card/30 backdrop-blur-sm border-border/30 hover:border-primary/30 transition-all duration-300 animate-fade-in" style={{animationDelay: `${index * 0.2}s`}}>
-              <div className="mb-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground">{caseStudy.company}</h3>
-                    <p className="text-sm text-muted-foreground">{caseStudy.industry} • {caseStudy.location}</p>
-                  </div>
-                  <div className="text-primary/20">
-                    <Quote className="w-8 h-8" />
-                  </div>
-                </div>
-                
-                <div className="space-y-4 mb-6">
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-2">Challenge</h4>
-                    <p className="text-sm text-muted-foreground">{caseStudy.challenge}</p>
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-2">Solution</h4>
-                    <p className="text-sm text-muted-foreground">{caseStudy.solution}</p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="text-center p-3 bg-primary/5 rounded-lg">
-                    <div className="text-lg font-bold text-primary">{caseStudy.results.callsAnswered}</div>
-                    <div className="text-xs text-muted-foreground">Calls Answered</div>
-                  </div>
-                  <div className="text-center p-3 bg-primary/5 rounded-lg">
-                    <div className="text-lg font-bold text-primary">+{caseStudy.results.bookingIncrease}</div>
-                    <div className="text-xs text-muted-foreground">Booking Increase</div>
-                  </div>
-                  <div className="text-center p-3 bg-primary/5 rounded-lg">
-                    <div className="text-lg font-bold text-primary">{caseStudy.results.staffTimeFreed}</div>
-                    <div className="text-xs text-muted-foreground">Time Freed Up</div>
-                  </div>
-                  <div className="text-center p-3 bg-primary/5 rounded-lg">
-                    <div className="text-lg font-bold text-primary">{caseStudy.results.patientSatisfaction || caseStudy.results.customerSatisfaction || caseStudy.results.conversionRate}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {caseStudy.results.patientSatisfaction ? 'Satisfaction' : 
-                       caseStudy.results.customerSatisfaction ? 'Satisfaction' : 'Conversion'}
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.02, y: -5 }}
+            >
+              <Card className="group p-8 bg-card/30 backdrop-blur-sm border-border/30 hover:border-primary/30 transition-all duration-300 h-full">
+                <div className="mb-6">
+                  <motion.div 
+                    className="flex items-center justify-between mb-4"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
+                    viewport={{ once: true }}
+                  >
+                    <div>
+                      <h3 className="text-xl font-bold text-foreground">{caseStudy.company}</h3>
+                      <p className="text-sm text-muted-foreground">{caseStudy.industry} • {caseStudy.location}</p>
                     </div>
+                    <motion.div 
+                      className="text-primary/20"
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      transition={{ duration: 0.4, delay: index * 0.2 + 0.5, type: "spring", stiffness: 300 }}
+                      viewport={{ once: true }}
+                    >
+                      <Quote className="w-8 h-8" />
+                    </motion.div>
+                  </motion.div>
+                  
+                  <motion.div 
+                    className="space-y-4 mb-6"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: index * 0.2 + 0.4 }}
+                    viewport={{ once: true }}
+                  >
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-2">Challenge</h4>
+                      <p className="text-sm text-muted-foreground">{caseStudy.challenge}</p>
+                    </div>
+                    
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-2">Solution</h4>
+                      <p className="text-sm text-muted-foreground">{caseStudy.solution}</p>
+                    </div>
+                  </motion.div>
+
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    {[
+                      { value: caseStudy.results.callsAnswered, label: "Calls Answered" },
+                      { value: `+${caseStudy.results.bookingIncrease}`, label: "Booking Increase" },
+                      { value: caseStudy.results.staffTimeFreed, label: "Time Freed Up" },
+                      { 
+                        value: caseStudy.results.patientSatisfaction || caseStudy.results.customerSatisfaction || caseStudy.results.conversionRate,
+                        label: caseStudy.results.patientSatisfaction ? 'Satisfaction' : 
+                               caseStudy.results.customerSatisfaction ? 'Satisfaction' : 'Conversion'
+                      }
+                    ].map((stat, statIndex) => (
+                      <motion.div 
+                        key={statIndex}
+                        className="text-center p-3 bg-primary/5 rounded-lg"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ 
+                          duration: 0.4, 
+                          delay: index * 0.2 + 0.6 + statIndex * 0.1,
+                          type: "spring",
+                          stiffness: 300
+                        }}
+                        viewport={{ once: true }}
+                        whileHover={{ scale: 1.05 }}
+                      >
+                        <div className="text-lg font-bold text-primary">{stat.value}</div>
+                        <div className="text-xs text-muted-foreground">{stat.label}</div>
+                      </motion.div>
+                    ))}
                   </div>
-                </div>
 
-                <blockquote className="text-sm text-foreground italic mb-4 border-l-2 border-primary/30 pl-4">
-                  "{caseStudy.testimonial}"
-                </blockquote>
+                  <motion.blockquote 
+                    className="text-sm text-foreground italic mb-4 border-l-2 border-primary/30 pl-4"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.2 + 0.8 }}
+                    viewport={{ once: true }}
+                  >
+                    "{caseStudy.testimonial}"
+                  </motion.blockquote>
 
-                <div className="text-sm">
-                  <div className="font-semibold text-foreground">{caseStudy.contactName}</div>
-                  <div className="text-muted-foreground">{caseStudy.role}</div>
+                  <motion.div 
+                    className="text-sm"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: index * 0.2 + 0.9 }}
+                    viewport={{ once: true }}
+                  >
+                    <div className="font-semibold text-foreground">{caseStudy.contactName}</div>
+                    <div className="text-muted-foreground">{caseStudy.role}</div>
+                  </motion.div>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            </motion.div>
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <motion.div 
+          className="text-center mt-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          viewport={{ once: true }}
+        >
           <p className="text-muted-foreground mb-6">Ready to see similar results for your business?</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium">
+            <motion.button 
+              className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
               View More Case Studies
-            </button>
-            <button className="px-6 py-3 border border-border/40 text-foreground rounded-lg hover:bg-background/20 transition-colors">
+            </motion.button>
+            <motion.button 
+              className="px-6 py-3 border border-border/40 text-foreground rounded-lg hover:bg-background/20 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
               Book Your Demo
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

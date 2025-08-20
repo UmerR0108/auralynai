@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import AnimatedCosmicBackground from "@/components/AnimatedCosmicBackground";
+import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
@@ -25,38 +26,80 @@ const Hero = () => {
       </div>
       
       {/* Content */}
-      <div className="relative z-20 container mx-auto px-6 text-center max-w-5xl">
-        <div className="mb-6">
+      <motion.div 
+        className="relative z-20 container mx-auto px-6 text-center max-w-5xl"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        <motion.div 
+          className="mb-6"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <span className="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-sm text-primary-glow font-medium mb-8">
             Trusted by busy clinics & service teams
           </span>
-        </div>
+        </motion.div>
         
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
+        <motion.h1 
+          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
           Answer every call with a natural{" "}
           <span className="text-gradient">AI receptionist</span>.
-        </h1>
+        </motion.h1>
         
-        <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+        <motion.p 
+          className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
           We greet, verify, schedule, remind, and reschedule across voice + SMS. 
           Your staff get their time back; your calendar fills itself.
-        </p>
+        </motion.p>
         
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-          <Button variant="hero" size="lg" className="px-8 py-6 text-lg">
-            Book Consultation
-          </Button>
-          <Button variant="cosmic" size="lg" className="px-8 py-6 text-lg">
-            Play Live Demo
-          </Button>
-        </div>
+        <motion.div 
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
+        >
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <Button variant="hero" size="lg" className="px-8 py-6 text-lg">
+              Book Consultation
+            </Button>
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <Button variant="cosmic" size="lg" className="px-8 py-6 text-lg">
+              Play Live Demo
+            </Button>
+          </motion.div>
+        </motion.div>
         
-        <div className="text-sm text-muted-foreground">
+        <motion.div 
+          className="text-sm text-muted-foreground"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.9 }}
+        >
           <span className="inline-block px-3 py-1 bg-primary/5 border border-primary/10 rounded-md">
             Powered by AI
           </span>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
       
       {/* Bottom fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-15"></div>
