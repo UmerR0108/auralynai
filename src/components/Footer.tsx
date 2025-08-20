@@ -1,13 +1,13 @@
-import auralynLogo from "@/assets/auralyn-logo.png";
-
 const Footer = () => {
   return (
     <footer className="py-12 border-t border-border/20">
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
-            <div className="flex items-center space-x-3 mb-4">
-              <img src={auralynLogo} alt="Auralyn AI" className="w-8 h-8" />
+            <div className="flex items-center space-x-2 mb-4">
+              <div className="w-8 h-8 bg-gradient-hero rounded-lg flex items-center justify-center">
+                <span className="text-primary-foreground font-bold">A</span>
+              </div>
               <span className="text-xl font-bold text-foreground">Auralyn AI</span>
             </div>
             <p className="text-muted-foreground">
