@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import FloatingElements from "./FloatingElements";
 import { motion } from "framer-motion";
+import ParticleField from "./ParticleField";
 
 const CallToAction = () => {
   return (
@@ -13,7 +13,7 @@ const CallToAction = () => {
       transition={{ duration: 0.8 }}
       viewport={{ once: true, margin: "-100px" }}
     >
-      <FloatingElements variant="minimal" />
+      <ParticleField className="opacity-40" />
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

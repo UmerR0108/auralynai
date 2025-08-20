@@ -1,8 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
 import aiReceptionistIcon from "@/assets/ai-receptionist-icon.jpg";
-import FloatingElements from "./FloatingElements";
 import { motion } from "framer-motion";
+import GeometricBackground from "./GeometricBackground";
 
 const Capabilities = () => {
   const features = [
@@ -23,7 +23,7 @@ const Capabilities = () => {
       transition={{ duration: 0.8 }}
       viewport={{ once: true, margin: "-100px" }}
     >
-      <FloatingElements variant="neural" />
+      <GeometricBackground className="opacity-25" />
       <div className="container mx-auto px-6">
         <motion.div 
           className="text-center mb-16"

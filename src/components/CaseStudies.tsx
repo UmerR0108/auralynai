@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Quote } from "lucide-react";
-import FloatingElements from "./FloatingElements";
 import { motion } from "framer-motion";
+import NeuralNetwork from "./NeuralNetwork";
 
 const CaseStudies = () => {
   const cases = [
@@ -64,7 +64,7 @@ const CaseStudies = () => {
       transition={{ duration: 0.8 }}
       viewport={{ once: true, margin: "-100px" }}
     >
-      <FloatingElements variant="minimal" />
+      <NeuralNetwork className="opacity-30" />
       <div className="container mx-auto px-6">
         <motion.div 
           className="text-center mb-16"

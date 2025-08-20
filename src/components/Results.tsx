@@ -1,7 +1,5 @@
 import { Card } from "@/components/ui/card";
-import FloatingElements from "./FloatingElements";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
 const Results = () => {
   const partners = [
@@ -19,7 +17,7 @@ const Results = () => {
       transition={{ duration: 0.8 }}
       viewport={{ once: true, margin: "-100px" }}
     >
-      <FloatingElements variant="tech" />
+      {/* Removed FloatingElements for cleaner design */}
       <div className="container mx-auto px-6">
         <motion.div 
           className="text-center mb-16"
