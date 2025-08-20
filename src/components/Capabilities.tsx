@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
 import aiReceptionistIcon from "@/assets/ai-receptionist-icon.jpg";
+import FloatingElements from "./FloatingElements";
 
 const Capabilities = () => {
   const features = [
@@ -13,7 +14,8 @@ const Capabilities = () => {
   ];
 
   return (
-    <section id="capabilities" className="py-24 relative">
+    <section id="capabilities" className="py-24 relative overflow-hidden">
+      <FloatingElements variant="neural" />
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-sm text-primary-glow font-medium mb-6">
@@ -32,8 +34,8 @@ const Capabilities = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             {features.map((feature, index) => (
-              <div key={index} className="flex items-center space-x-4 group animate-fade-in hover-scale" style={{animationDelay: `${index * 0.1}s`}}>
-                <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 group-hover:scale-110 group-hover:animate-pulse transition-all duration-300" />
+              <div key={index} className="flex items-center space-x-4 group animate-fade-in hover:translate-x-1 transition-all duration-300" style={{animationDelay: `${index * 0.1}s`}}>
+                <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 group-hover:scale-110 transition-all duration-300" />
                 <span className="text-lg text-foreground group-hover:text-primary transition-colors duration-300">{feature}</span>
               </div>
             ))}
@@ -46,9 +48,9 @@ const Capabilities = () => {
           </div>
 
           <div className="relative">
-            <Card className="group p-8 bg-card/20 backdrop-blur-sm border-border/40 cosmic-glow hover-scale transition-all duration-500 animate-fade-in">
+            <Card className="group p-8 bg-card/30 backdrop-blur-sm border-border/30 hover:border-primary/30 transition-all duration-300 animate-fade-in">
               <div className="text-center">
-                <div className="w-24 h-24 mx-auto mb-6 rounded-2xl overflow-hidden group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                <div className="w-24 h-24 mx-auto mb-6 rounded-2xl overflow-hidden group-hover:scale-105 transition-transform duration-300">
                   <img 
                     src={aiReceptionistIcon} 
                     alt="AI Receptionist Interface" 
@@ -60,12 +62,12 @@ const Capabilities = () => {
                   Natural conversations that feel human while maintaining perfect consistency and availability 24/7.
                 </p>
                 <div className="grid grid-cols-2 gap-4 text-center">
-                  <div className="p-4 bg-primary/5 rounded-lg hover:bg-primary/10 transition-all duration-300 hover-scale">
-                    <div className="text-2xl font-bold text-primary animate-pulse-glow">24/7</div>
+                  <div className="p-4 bg-primary/5 rounded-lg hover:bg-primary/10 transition-all duration-300">
+                    <div className="text-2xl font-bold text-primary">24/7</div>
                     <div className="text-sm text-muted-foreground">Availability</div>
                   </div>
-                  <div className="p-4 bg-primary/5 rounded-lg hover:bg-primary/10 transition-all duration-300 hover-scale">
-                    <div className="text-2xl font-bold text-primary animate-pulse-glow">100%</div>
+                  <div className="p-4 bg-primary/5 rounded-lg hover:bg-primary/10 transition-all duration-300">
+                    <div className="text-2xl font-bold text-primary">100%</div>
                     <div className="text-sm text-muted-foreground">Consistent</div>
                   </div>
                 </div>

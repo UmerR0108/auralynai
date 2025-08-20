@@ -54,7 +54,14 @@ const CaseStudies = () => {
   ];
 
   return (
-    <section id="case-studies" className="py-24 relative">
+    <section id="case-studies" className="py-24 relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute inset-0 opacity-15">
+        <div className="absolute top-32 left-16 w-44 h-44 bg-gradient-to-br from-primary/25 to-accent/25 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-32 right-16 w-60 h-60 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-full blur-3xl animate-float" style={{animationDelay: '2.5s'}}></div>
+        <div className="absolute top-1/4 right-1/3 w-36 h-36 bg-accent/15 rounded-full blur-2xl animate-drift"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-28 h-28 bg-primary/20 rounded-full blur-xl animate-drift" style={{animationDelay: '4s'}}></div>
+      </div>
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-sm text-primary-glow font-medium mb-6">
@@ -70,7 +77,7 @@ const CaseStudies = () => {
 
         <div className="grid lg:grid-cols-3 gap-8">
           {cases.map((caseStudy, index) => (
-            <Card key={index} className="p-8 bg-card/20 backdrop-blur-sm border-border/40 cosmic-glow hover:border-primary/40 transition-all duration-300">
+            <Card key={index} className="group p-8 bg-card/30 backdrop-blur-sm border-border/30 hover:border-primary/30 transition-all duration-300 animate-fade-in" style={{animationDelay: `${index * 0.2}s`}}>
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
