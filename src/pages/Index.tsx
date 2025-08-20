@@ -1,6 +1,7 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import Capabilities from "@/components/Capabilities";
+import CaseStudies from "@/components/CaseStudies";
 import Results from "@/components/Results";
 import CallToAction from "@/components/CallToAction";
 import Footer from "@/components/Footer";
@@ -11,6 +12,7 @@ const Index = () => {
       <Navigation />
       <Hero />
       <Capabilities />
+      <CaseStudies />
       <Results />
       <CallToAction />
       <Footer />
