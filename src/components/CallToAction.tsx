@@ -64,7 +64,13 @@ const CallToAction = () => {
                     variant="hero" 
                     size="lg" 
                     className="px-10 py-6 text-base"
-                    onClick={() => navigate('/contact')}
+                    onClick={() => {
+                      navigate('/contact');
+                      // Scroll to top after navigation
+                      setTimeout(() => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }, 100);
+                    }}
                   >
                     Book Consultation
                   </Button>
@@ -74,7 +80,13 @@ const CallToAction = () => {
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Button variant="outline" size="lg" className="px-10 py-6 text-base" onClick={() => navigate('/contact')}>
+                  <Button variant="outline" size="lg" className="px-10 py-6 text-base" onClick={() => {
+                    navigate('/contact');
+                    // Scroll to top after navigation
+                    setTimeout(() => {
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 100);
+                  }}>
                     Contact Sales
                   </Button>
                 </motion.div>

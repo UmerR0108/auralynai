@@ -83,7 +83,13 @@ const Hero = () => {
               variant="hero" 
               size="lg" 
               className="px-8 py-6 text-lg"
-              onClick={() => navigate('/contact')}
+              onClick={() => {
+                navigate('/contact');
+                // Scroll to top after navigation
+                setTimeout(() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 100);
+              }}
             >
               Book Consultation
             </Button>
