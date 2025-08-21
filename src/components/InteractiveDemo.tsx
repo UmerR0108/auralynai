@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Phone, Play, RotateCcw } from "lucide-react";
+import { User, Bot, RotateCcw } from "lucide-react";
 
 interface Message {
   type: 'caller' | 'ai';
@@ -86,6 +86,7 @@ const InteractiveDemo = () => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
+  const [timer, setTimer] = useState(0);
   const chatContainerRef = React.useRef<HTMLDivElement>(null);
 
   const currentIndustry = industries.find(industry => industry.id === activeIndustry);
@@ -94,13 +95,26 @@ const InteractiveDemo = () => {
     setMessages([]);
     setCurrentMessageIndex(0);
     setIsPlaying(true);
+    setTimer(0);
   };
 
   const resetDemo = () => {
     setMessages([]);
     setCurrentMessageIndex(0);
     setIsPlaying(false);
+    setTimer(0);
   };
+
+  // Timer effect for live indicator
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setTimer(prev => prev + 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying]);
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
@@ -123,14 +137,14 @@ const InteractiveDemo = () => {
     const currentMessage = currentIndustry.conversation[currentMessageIndex];
     
     // Use faster delays: reduce original delays by ~50%
-    const adjustedDelay = currentMessageIndex === 0 ? 0 : 300;
+    const adjustedDelay = currentMessageIndex === 0 ? 0 : 400;
     
-    const timer = setTimeout(() => {
+    const messageTimer = setTimeout(() => {
       setMessages(prev => [...prev, currentMessage]);
       setCurrentMessageIndex(prev => prev + 1);
     }, adjustedDelay);
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(messageTimer);
   }, [isPlaying, currentMessageIndex, currentIndustry]);
 
   useEffect(() => {
@@ -141,16 +155,23 @@ const InteractiveDemo = () => {
   // Auto-start demo when component comes into view
   useEffect(() => {
     if (!hasAutoStarted && !isPlaying) {
-      const timer = setTimeout(() => {
+      const startTimer = setTimeout(() => {
         setHasAutoStarted(true);
         startDemo();
       }, 1000);
-      return () => clearTimeout(timer);
+      return () => clearTimeout(startTimer);
     }
   }, [hasAutoStarted, isPlaying]);
 
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   return (
     <motion.section
+      id="product"
       className="py-16 md:py-24 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
@@ -180,46 +201,35 @@ const InteractiveDemo = () => {
           viewport={{ once: true }}
           className="max-w-4xl mx-auto"
         >
-          <Card className="bg-slate-800/90 backdrop-blur-sm border border-slate-600 shadow-2xl overflow-hidden">
+          <Card className="bg-slate-900/95 backdrop-blur-sm border border-slate-700 shadow-2xl overflow-hidden">
             <div className="p-4 md:p-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 md:mb-6 gap-4">
+              {/* Header with live indicator and timestamp */}
+              <div className="flex items-center justify-between mb-4 md:mb-6 bg-slate-800/50 rounded-lg p-3">
                 <div className="flex items-center gap-3">
-                  <div className="bg-emerald-500 w-3 h-3 rounded-full animate-pulse shadow-lg"></div>
-                  <Phone className="w-5 h-5 text-slate-300" />
-                  <span className="text-white font-medium">Live Call Simulation</span>
+                  <div className="bg-emerald-500 w-3 h-3 rounded-full animate-pulse shadow-lg shadow-emerald-500/50"></div>
+                  <span className="text-white font-medium">Auralyn Ai — Live call</span>
                 </div>
-                <div className="flex gap-2">
-                  {!isPlaying ? (
-                    <Button
-                      onClick={startDemo}
-                      variant="outline"
-                      size="sm"
-                      className="bg-slate-700/50 border-slate-500 text-white hover:bg-slate-600/80"
-                    >
-                      <Play className="w-4 h-4 mr-2" />
-                      Start Demo
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={resetDemo}
-                      variant="outline"
-                      size="sm"
-                      className="bg-slate-700/50 border-slate-500 text-white hover:bg-slate-600/80"
-                    >
-                      <RotateCcw className="w-4 h-4 mr-2" />
-                      Reset
-                    </Button>
-                  )}
+                <div className="flex items-center gap-4">
+                  <span className="text-slate-300 text-sm font-mono">{formatTime(timer)}</span>
+                  <Button
+                    onClick={resetDemo}
+                    variant="outline"
+                    size="sm"
+                    className="bg-slate-800/50 border-slate-600 text-white hover:bg-slate-700/80 text-xs"
+                  >
+                    <RotateCcw className="w-3 h-3 mr-1" />
+                    Replay conversation
+                  </Button>
                 </div>
               </div>
 
               <Tabs value={activeIndustry} onValueChange={setActiveIndustry} className="w-full">
-                <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 bg-slate-700/50 mb-4 md:mb-6 h-auto p-1">
+                <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 bg-slate-800/50 mb-4 md:mb-6 h-auto p-1 border border-slate-700">
                   {industries.map((industry) => (
                     <TabsTrigger
                       key={industry.id}
                       value={industry.id}
-                      className="text-slate-300 data-[state=active]:bg-slate-600 data-[state=active]:text-white data-[state=active]:shadow-sm px-2 py-2 text-sm"
+                      className="text-slate-400 data-[state=active]:bg-slate-700 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/20 data-[state=active]:border data-[state=active]:border-purple-500/30 px-2 py-2 text-sm transition-all duration-200"
                     >
                       {industry.name}
                     </TabsTrigger>
@@ -230,17 +240,22 @@ const InteractiveDemo = () => {
                 <TabsContent key={industry.id} value={industry.id} className="mt-0">
                     <div 
                       ref={chatContainerRef}
-                      className="bg-slate-950/70 rounded-xl p-4 md:p-6 min-h-[350px] md:min-h-[400px] max-h-[500px] overflow-y-auto border border-slate-600/30 scroll-smooth"
+                      className="bg-slate-950/90 rounded-xl p-4 md:p-6 min-h-[350px] md:min-h-[400px] max-h-[500px] overflow-y-auto border border-slate-700/50 scroll-smooth"
                       style={{ scrollBehavior: 'smooth' }}
                     >
+                      <div className="mb-4 text-center">
+                        <span className="inline-block px-3 py-1 bg-slate-800/60 border border-slate-600 rounded-full text-xs text-slate-300">
+                          Static preview
+                        </span>
+                      </div>
                       <AnimatePresence mode="popLayout">
                         {messages.map((message, index) => (
                           <motion.div
                             key={index}
                             initial={{ 
                               opacity: 0, 
-                              y: 8, 
-                              scale: 0.85
+                              y: 10, 
+                              scale: 0.9
                             }}
                             animate={{ 
                               opacity: 1, 
@@ -248,25 +263,34 @@ const InteractiveDemo = () => {
                               scale: 1
                             }}
                             transition={{ 
-                              duration: 0.4, 
-                              type: "spring", 
-                              stiffness: 400,
-                              damping: 25
+                              duration: 0.3, 
+                              ease: "easeOut"
                             }}
-                            className={`mb-4 flex ${message.type === 'caller' ? 'justify-start' : 'justify-end'}`}
+                            className={`mb-6 flex items-start gap-3 ${message.type === 'caller' ? 'flex-row' : 'flex-row-reverse'}`}
                           >
+                            {/* Avatar */}
+                            <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                              message.type === 'caller' 
+                                ? 'bg-purple-600' 
+                                : 'bg-slate-700 shadow-lg shadow-purple-500/30'
+                            }`}>
+                              {message.type === 'caller' ? (
+                                <User className="w-4 h-4 text-white" />
+                              ) : (
+                                <Bot className="w-4 h-4 text-purple-400" />
+                              )}
+                            </div>
+                            
+                            {/* Message bubble */}
                             <motion.div
-                              whileHover={{ scale: 1.02 }}
-                              className={`max-w-[70%] sm:max-w-[75%] p-3 md:p-4 rounded-lg shadow-lg transition-all duration-200 ${
+                              whileHover={{ scale: 1.01 }}
+                              className={`max-w-[75%] p-3 md:p-4 rounded-lg shadow-md transition-all duration-200 ${
                                 message.type === 'caller'
-                                  ? 'bg-[#B388FF] text-white rounded-bl-sm shadow-purple-500/20'
-                                  : 'bg-[#1F1F1F] text-white rounded-br-sm shadow-slate-900/40'
+                                  ? 'bg-slate-700 text-white rounded-bl-sm'
+                                  : 'bg-slate-800 text-white rounded-br-sm'
                               }`}
                             >
-                              <div className="text-xs opacity-80 mb-1 font-medium">
-                                {message.type === 'caller' ? 'Customer' : 'AuralynAI'}
-                              </div>
-                              <div className="leading-relaxed">{message.text}</div>
+                              <div className="leading-relaxed text-sm md:text-base">{message.text}</div>
                             </motion.div>
                           </motion.div>
                         ))}
