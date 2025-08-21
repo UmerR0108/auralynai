@@ -136,8 +136,8 @@ const InteractiveDemo = () => {
 
     const currentMessage = currentIndustry.conversation[currentMessageIndex];
     
-    // Use faster delays: reduce original delays by ~50%
-    const adjustedDelay = currentMessageIndex === 0 ? 0 : 400;
+    // Set consistent 2.5 second delay between messages
+    const adjustedDelay = currentMessageIndex === 0 ? 0 : 2500;
     
     const messageTimer = setTimeout(() => {
       setMessages(prev => [...prev, currentMessage]);
