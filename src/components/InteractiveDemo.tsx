@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { User, Bot } from "lucide-react";
 
 interface Message {
   type: 'caller' | 'auralyn';
@@ -283,29 +284,53 @@ const InteractiveDemo = () => {
                         damping: 30,
                         duration: 0.4
                       }}
-                      className={`mb-6 flex ${message.type === 'auralyn' ? 'justify-end' : 'justify-start'}`}
+                      className={`mb-6 flex items-start gap-3 ${message.type === 'auralyn' ? 'flex-row-reverse' : 'flex-row'}`}
                     >
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        initial={{ boxShadow: "0 0 0px rgba(168, 85, 247, 0)" }}
-                        animate={{ 
-                          boxShadow: index === messages.length - 1 
-                            ? [
-                                "0 0 0px rgba(168, 85, 247, 0)",
-                                "0 0 20px rgba(168, 85, 247, 0.3)",
-                                "0 0 0px rgba(168, 85, 247, 0)"
-                              ]
-                            : "0 0 0px rgba(168, 85, 247, 0)"
-                        }}
-                        transition={{ duration: 1.5, times: [0, 0.5, 1] }}
-                        className={`inline-block px-4 py-3 max-w-[75%] rounded-xl text-sm shadow-lg transition-all duration-300 ${
-                          message.type === 'caller' 
-                            ? 'bg-purple-500/70 backdrop-blur-sm text-white shadow-purple-500/30 border border-purple-400/30' 
-                            : 'bg-slate-700/70 backdrop-blur-sm text-white shadow-slate-700/30 border border-slate-600/30'
-                        }`}
-                      >
-                        {message.text}
-                      </motion.div>
+                      {/* Avatar */}
+                      <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                        message.type === 'caller' 
+                          ? 'bg-purple-500/70 backdrop-blur-sm border border-purple-400/50' 
+                          : 'bg-slate-700/70 backdrop-blur-sm border border-slate-600/50 shadow-lg shadow-purple-500/20'
+                      }`}>
+                        {message.type === 'caller' ? (
+                          <User className="w-4 h-4 text-white" />
+                        ) : (
+                          <Bot className="w-4 h-4 text-purple-300" />
+                        )}
+                      </div>
+
+                      {/* Message content */}
+                      <div className={`flex flex-col ${message.type === 'auralyn' ? 'items-end' : 'items-start'} max-w-[75%]`}>
+                        {/* Label */}
+                        <span className={`text-xs font-semibold text-slate-400 mb-1 ${
+                          message.type === 'auralyn' ? 'text-right' : 'text-left'
+                        }`}>
+                          {message.type === 'caller' ? 'Customer' : 'Auralyn'}
+                        </span>
+                        
+                        {/* Message bubble */}
+                        <motion.div
+                          whileHover={{ scale: 1.02 }}
+                          initial={{ boxShadow: "0 0 0px rgba(168, 85, 247, 0)" }}
+                          animate={{ 
+                            boxShadow: index === messages.length - 1 
+                              ? [
+                                  "0 0 0px rgba(168, 85, 247, 0)",
+                                  "0 0 20px rgba(168, 85, 247, 0.3)",
+                                  "0 0 0px rgba(168, 85, 247, 0)"
+                                ]
+                              : "0 0 0px rgba(168, 85, 247, 0)"
+                          }}
+                          transition={{ duration: 1.5, times: [0, 0.5, 1] }}
+                          className={`px-4 py-3 rounded-xl text-sm shadow-lg transition-all duration-300 ${
+                            message.type === 'caller' 
+                              ? 'bg-purple-500/70 backdrop-blur-sm text-white shadow-purple-500/30 border border-purple-400/30 rounded-bl-sm' 
+                              : 'bg-slate-700/70 backdrop-blur-sm text-white shadow-slate-700/30 border border-slate-600/30 rounded-br-sm'
+                          }`}
+                        >
+                          {message.text}
+                        </motion.div>
+                      </div>
                     </motion.div>
                   ))}
                 </AnimatePresence>
