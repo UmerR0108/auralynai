@@ -1,12 +1,32 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import ContactFormModal from "./ContactFormModal";
 
 const Navigation = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
+  const handleNavClick = (sectionId: string) => {
+    if (location.pathname !== '/') {
+      // Navigate to homepage first, then scroll
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        element?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      // Already on homepage, just scroll
+      const element = document.getElementById(sectionId);
+      element?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
   return (
     <motion.nav 
       className="fixed top-0 left-0 right-0 z-50 bg-background/10 backdrop-blur-md border-b border-border/20"
@@ -16,13 +36,14 @@ const Navigation = () => {
     >
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <motion.div 
-          className="flex items-center space-x-2"
+          className="flex items-center space-x-2 cursor-pointer"
+          onClick={handleLogoClick}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <motion.img 
-            src="/lovable-uploads/36c969d9-2d19-4347-ac2d-236764962c0e.png" 
+            src="/lovable-uploads/bc80b8cc-d9da-4ea3-9803-f356f17cd733.png" 
             alt="Auralyn AI Logo" 
             className="w-8 h-8"
             whileHover={{ scale: 1.1, rotate: 5 }}
@@ -37,30 +58,30 @@ const Navigation = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <motion.a 
-            href="#product" 
+          <motion.button 
+            onClick={() => handleNavClick('product')}
             className="text-muted-foreground hover:text-foreground transition-colors"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
             Product
-          </motion.a>
-          <motion.a 
-            href="#capabilities" 
+          </motion.button>
+          <motion.button 
+            onClick={() => handleNavClick('capabilities')}
             className="text-muted-foreground hover:text-foreground transition-colors"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
             Capabilities
-          </motion.a>
-          <motion.a 
-            href="#results" 
+          </motion.button>
+          <motion.button 
+            onClick={() => handleNavClick('results')}
             className="text-muted-foreground hover:text-foreground transition-colors"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
             Results
-          </motion.a>
+          </motion.button>
           <motion.a 
             href="/contact" 
             className="text-muted-foreground hover:text-foreground transition-colors"
