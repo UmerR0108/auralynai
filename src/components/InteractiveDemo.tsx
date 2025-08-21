@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { User, Bot, RotateCcw } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
 
 interface Message {
-  type: 'caller' | 'ai';
+  type: 'caller' | 'auralyn';
   text: string;
-  delay: number;
 }
 
 interface Industry {
@@ -19,77 +13,83 @@ interface Industry {
 
 const industries: Industry[] = [
   {
-    id: "dental",
-    name: "Dental",
-    conversation: [
-      { type: 'caller', text: "Hi, I need to schedule a cleaning appointment.", delay: 0 },
-      { type: 'ai', text: "Hello! I'd be happy to help you schedule a cleaning appointment. What's your preferred day of the week?", delay: 600 },
-      { type: 'caller', text: "Maybe next Tuesday or Wednesday morning?", delay: 1200 },
-      { type: 'ai', text: "Perfect! I have Tuesday at 9:30 AM or Wednesday at 10:15 AM available. Which works better for you?", delay: 1800 },
-      { type: 'caller', text: "Tuesday at 9:30 sounds great.", delay: 2400 },
-      { type: 'ai', text: "Excellent! You're all set for Tuesday, March 12th at 9:30 AM. You'll receive a confirmation text shortly. Is there anything else I can help you with today?", delay: 3000 }
-    ]
-  },
-  {
     id: "cleaning",
     name: "Cleaning",
     conversation: [
-      { type: 'caller', text: "I need a quote for weekly house cleaning service.", delay: 0 },
-      { type: 'ai', text: "I'd be happy to provide a quote! How many bedrooms and bathrooms does your home have?", delay: 600 },
-      { type: 'caller', text: "It's 3 bedrooms and 2 bathrooms, about 1,800 square feet.", delay: 1200 },
-      { type: 'ai', text: "For a 3-bedroom, 2-bathroom home, our weekly service starts at $120. Would you like to schedule a free assessment to get an exact quote?", delay: 1800 },
-      { type: 'caller', text: "Yes, that would be great. When can someone come out?", delay: 2400 },
-      { type: 'ai', text: "I can schedule an assessment for this Friday at 2 PM or Saturday at 10 AM. Which works better for you?", delay: 3000 }
+      { type: 'caller', text: "I need a quote for weekly house cleaning service." },
+      { type: 'auralyn', text: "I'd be happy to provide a quote! How many bedrooms and bathrooms does your home have?" },
+      { type: 'caller', text: "It's 3 bedrooms and 2 bathrooms, about 1,800 square feet." },
+      { type: 'auralyn', text: "For a 3-bedroom, 2-bathroom home, our weekly service starts at $120. Would you like to schedule a free assessment to get an exact quote?" },
+      { type: 'caller', text: "Yes, that would be great. When can someone come out?" },
+      { type: 'auralyn', text: "I can schedule an assessment for this Friday at 2 PM or Saturday at 10 AM. Which works better for you?" }
+    ]
+  },
+  {
+    id: "dental",
+    name: "Dental",
+    conversation: [
+      { type: 'caller', text: "Hi, I need to schedule a cleaning appointment." },
+      { type: 'auralyn', text: "Hello! I'd be happy to help you schedule a cleaning appointment. What's your preferred day of the week?" },
+      { type: 'caller', text: "Maybe next Tuesday or Wednesday morning?" },
+      { type: 'auralyn', text: "Perfect! I have Tuesday at 9:30 AM or Wednesday at 10:15 AM available. Which works better for you?" },
+      { type: 'caller', text: "Tuesday at 9:30 sounds great." },
+      { type: 'auralyn', text: "Excellent! You're all set for Tuesday, March 12th at 9:30 AM. You'll receive a confirmation text shortly. Is there anything else I can help you with today?" }
     ]
   },
   {
     id: "hvac",
     name: "HVAC",
     conversation: [
-      { type: 'caller', text: "My air conditioner stopped working and it's really hot today.", delay: 0 },
-      { type: 'ai', text: "I understand how uncomfortable that must be. Is your system not turning on at all, or is it running but not cooling?", delay: 600 },
-      { type: 'caller', text: "It's running but just blowing warm air.", delay: 1200 },
-      { type: 'ai', text: "That sounds like it could be a refrigerant issue or a problem with the compressor. I can get a technician out today - we have availability at 2 PM or 4 PM.", delay: 1800 },
-      { type: 'caller', text: "2 PM would be perfect, thank you!", delay: 2400 },
-      { type: 'ai', text: "Perfect! I've scheduled a technician for 2 PM today. The service call fee is $89, which is applied toward any repairs needed. You'll receive a confirmation text with the technician's details.", delay: 3000 }
+      { type: 'caller', text: "My air conditioner stopped working and it's really hot today." },
+      { type: 'auralyn', text: "I understand how uncomfortable that must be. Is your system not turning on at all, or is it running but not cooling?" },
+      { type: 'caller', text: "It's running but just blowing warm air." },
+      { type: 'auralyn', text: "That sounds like it could be a refrigerant issue or a problem with the compressor. I can get a technician out today - we have availability at 2 PM or 4 PM." },
+      { type: 'caller', text: "2 PM would be perfect, thank you!" },
+      { type: 'auralyn', text: "Perfect! I've scheduled a technician for 2 PM today. The service call fee is $89, which is applied toward any repairs needed. You'll receive a confirmation text with the technician's details." }
     ]
   },
   {
     id: "medspa",
     name: "Med Spa",
     conversation: [
-      { type: 'caller', text: "I'm interested in Botox treatment. What's the process like?", delay: 0 },
-      { type: 'ai', text: "Great question! Botox is one of our most popular treatments. Have you had Botox before, or would this be your first time?", delay: 600 },
-      { type: 'caller', text: "This would be my first time. I'm a bit nervous about it.", delay: 1200 },
-      { type: 'ai', text: "That's completely normal! We offer complimentary consultations where our practitioner explains the entire process and answers all your questions. Would you like to schedule one?", delay: 1800 },
-      { type: 'caller', text: "Yes, that sounds good. When are you available?", delay: 2400 },
-      { type: 'ai', text: "I have openings this Thursday at 3 PM or Friday at 11 AM for your consultation. The consultation is about 30 minutes and completely free with no pressure.", delay: 3000 }
+      { type: 'caller', text: "I'm interested in Botox treatment. What's the process like?" },
+      { type: 'auralyn', text: "Great question! Botox is one of our most popular treatments. Have you had Botox before, or would this be your first time?" },
+      { type: 'caller', text: "This would be my first time. I'm a bit nervous about it." },
+      { type: 'auralyn', text: "That's completely normal! We offer complimentary consultations where our practitioner explains the entire process and answers all your questions. Would you like to schedule one?" },
+      { type: 'caller', text: "Yes, that sounds good. When are you available?" },
+      { type: 'auralyn', text: "I have openings this Thursday at 3 PM or Friday at 11 AM for your consultation. The consultation is about 30 minutes and completely free with no pressure." }
     ]
   },
   {
     id: "auto",
     name: "Auto Repair",
     conversation: [
-      { type: 'caller', text: "My car is making a strange noise when I brake.", delay: 0 },
-      { type: 'ai', text: "That definitely needs to be checked right away for safety. Can you describe the noise - is it a grinding, squealing, or squeaking sound?", delay: 600 },
-      { type: 'caller', text: "It's more like a grinding noise, especially when I stop.", delay: 1200 },
-      { type: 'ai', text: "That sounds like your brake pads may need replacement. For safety, I'd recommend getting this looked at today. We have an opening at 1 PM - would that work?", delay: 1800 },
-      { type: 'caller', text: "Yes, I can come in at 1 PM today.", delay: 2400 },
-      { type: 'ai', text: "Perfect! I have you scheduled for 1 PM today for a brake inspection. Please drive carefully and avoid heavy braking if possible. See you soon!", delay: 3000 }
+      { type: 'caller', text: "My car is making a strange noise when I brake." },
+      { type: 'auralyn', text: "That definitely needs to be checked right away for safety. Can you describe the noise - is it a grinding, squealing, or squeaking sound?" },
+      { type: 'caller', text: "It's more like a grinding noise, especially when I stop." },
+      { type: 'auralyn', text: "That sounds like your brake pads may need replacement. For safety, I'd recommend getting this looked at today. We have an opening at 1 PM - would that work?" },
+      { type: 'caller', text: "Yes, I can come in at 1 PM today." },
+      { type: 'auralyn', text: "Perfect! I have you scheduled for 1 PM today for a brake inspection. Please drive carefully and avoid heavy braking if possible. See you soon!" }
     ]
   }
 ];
 
 const InteractiveDemo = () => {
-  const [activeIndustry, setActiveIndustry] = useState("dental");
+  const [activeIndustry, setActiveIndustry] = useState("cleaning");
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [hasAutoStarted, setHasAutoStarted] = useState(false);
   const [timer, setTimer] = useState(0);
-  const chatContainerRef = React.useRef<HTMLDivElement>(null);
+  const [hasAutoStarted, setHasAutoStarted] = useState(false);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const currentIndustry = industries.find(industry => industry.id === activeIndustry);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const startDemo = () => {
     setMessages([]);
@@ -105,7 +105,7 @@ const InteractiveDemo = () => {
     setTimer(0);
   };
 
-  // Timer effect for live indicator
+  // Timer effect - counts up every second when playing
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isPlaying) {
@@ -115,6 +115,25 @@ const InteractiveDemo = () => {
     }
     return () => clearInterval(interval);
   }, [isPlaying]);
+
+  // Message sequence effect - adds message every 2.5 seconds
+  useEffect(() => {
+    if (!isPlaying || !currentIndustry || currentMessageIndex >= currentIndustry.conversation.length) {
+      if (currentMessageIndex >= (currentIndustry?.conversation.length || 0)) {
+        setIsPlaying(false);
+      }
+      return;
+    }
+
+    const delay = currentMessageIndex === 0 ? 0 : 2500; // First message immediate, others 2.5s apart
+
+    const messageTimer = setTimeout(() => {
+      setMessages(prev => [...prev, currentIndustry.conversation[currentMessageIndex]]);
+      setCurrentMessageIndex(prev => prev + 1);
+    }, delay);
+
+    return () => clearTimeout(messageTimer);
+  }, [isPlaying, currentMessageIndex, currentIndustry]);
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
@@ -126,33 +145,13 @@ const InteractiveDemo = () => {
     }
   }, [messages]);
 
-  useEffect(() => {
-    if (!isPlaying || !currentIndustry || currentMessageIndex >= currentIndustry.conversation.length) {
-      if (currentMessageIndex >= currentIndustry?.conversation.length!) {
-        setIsPlaying(false);
-      }
-      return;
-    }
-
-    const currentMessage = currentIndustry.conversation[currentMessageIndex];
-    
-    // Set consistent 2.5 second delay between messages
-    const adjustedDelay = currentMessageIndex === 0 ? 0 : 2500;
-    
-    const messageTimer = setTimeout(() => {
-      setMessages(prev => [...prev, currentMessage]);
-      setCurrentMessageIndex(prev => prev + 1);
-    }, adjustedDelay);
-
-    return () => clearTimeout(messageTimer);
-  }, [isPlaying, currentMessageIndex, currentIndustry]);
-
+  // Reset when industry changes
   useEffect(() => {
     resetDemo();
     setHasAutoStarted(false);
   }, [activeIndustry]);
 
-  // Auto-start demo when component comes into view
+  // Auto-start demo when component loads
   useEffect(() => {
     if (!hasAutoStarted && !isPlaying) {
       const startTimer = setTimeout(() => {
@@ -163,147 +162,62 @@ const InteractiveDemo = () => {
     }
   }, [hasAutoStarted, isPlaying]);
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
   return (
-    <motion.section
-      id="product"
-      className="py-16 md:py-24 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: true, margin: "-100px" }}
-    >
-      <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-            See AuralynAI in Action
-          </h2>
-          <p className="text-lg md:text-xl text-slate-300 mb-8 max-w-3xl mx-auto">
-            Watch how our AI receptionist handles real customer conversations across different industries
-          </p>
-        </motion.div>
+    <section id="live-demo" className="py-16 bg-gray-900 text-white">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold">Auralyn Ai — Live call</h2>
+          <div className="text-green-400 font-mono text-sm">{formatTime(timer)}</div>
+        </div>
+        <p className="text-sm text-gray-400 mb-6">Static preview</p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto"
+        <div className="flex space-x-2 mb-4">
+          {industries.map((industry) => (
+            <button
+              key={industry.id}
+              onClick={() => setActiveIndustry(industry.id)}
+              className={`px-3 py-1 rounded text-sm transition ${
+                activeIndustry === industry.id
+                  ? 'bg-white text-black'
+                  : 'bg-gray-800 text-white hover:bg-gray-700'
+              }`}
+            >
+              {industry.name}
+            </button>
+          ))}
+        </div>
+
+        <div 
+          ref={chatContainerRef}
+          className="bg-gray-800 p-4 rounded-lg h-96 overflow-y-auto space-y-2"
         >
-          <Card className="bg-slate-900/95 backdrop-blur-sm border border-slate-700 shadow-2xl overflow-hidden">
-            <div className="p-4 md:p-6">
-              {/* Header with live indicator and timestamp */}
-              <div className="flex items-center justify-between mb-4 md:mb-6 bg-slate-800/50 rounded-lg p-3">
-                <div className="flex items-center gap-3">
-                  <div className="bg-emerald-500 w-3 h-3 rounded-full animate-pulse shadow-lg shadow-emerald-500/50"></div>
-                  <span className="text-white font-medium">Auralyn Ai — Live call</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-slate-300 text-sm font-mono">{formatTime(timer)}</span>
-                  <Button
-                    onClick={resetDemo}
-                    variant="outline"
-                    size="sm"
-                    className="bg-slate-800/50 border-slate-600 text-white hover:bg-slate-700/80 text-xs"
-                  >
-                    <RotateCcw className="w-3 h-3 mr-1" />
-                    Replay conversation
-                  </Button>
-                </div>
+          {messages.map((message, index) => (
+            <div key={index} className={`flex ${message.type === 'auralyn' ? 'justify-end' : 'justify-start'}`}>
+              <div
+                className={`inline-block px-4 py-2 max-w-[70%] rounded-lg text-sm message-bubble ${
+                  message.type === 'caller' 
+                    ? 'bg-purple-500 text-white caller' 
+                    : 'bg-gray-700 text-white auralyn'
+                }`}
+                style={{
+                  animation: 'popIn 0.4s ease-out forwards'
+                }}
+              >
+                {message.text}
               </div>
-
-              <Tabs value={activeIndustry} onValueChange={setActiveIndustry} className="w-full">
-                <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 bg-slate-800/50 mb-4 md:mb-6 h-auto p-1 border border-slate-700">
-                  {industries.map((industry) => (
-                    <TabsTrigger
-                      key={industry.id}
-                      value={industry.id}
-                      className="text-slate-400 data-[state=active]:bg-slate-700 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/20 data-[state=active]:border data-[state=active]:border-purple-500/30 px-2 py-2 text-sm transition-all duration-200"
-                    >
-                      {industry.name}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-
-                {industries.map((industry) => (
-                <TabsContent key={industry.id} value={industry.id} className="mt-0">
-                    <div 
-                      ref={chatContainerRef}
-                      className="bg-slate-950/90 rounded-xl p-4 md:p-6 min-h-[350px] md:min-h-[400px] max-h-[500px] overflow-y-auto border border-slate-700/50 scroll-smooth"
-                      style={{ scrollBehavior: 'smooth' }}
-                    >
-                      <div className="mb-4 text-center">
-                        <span className="inline-block px-3 py-1 bg-slate-800/60 border border-slate-600 rounded-full text-xs text-slate-300">
-                          Static preview
-                        </span>
-                      </div>
-                      <AnimatePresence mode="popLayout">
-                        {messages.map((message, index) => (
-                          <motion.div
-                            key={index}
-                            initial={{ 
-                              opacity: 0, 
-                              y: 10, 
-                              scale: 0.9
-                            }}
-                            animate={{ 
-                              opacity: 1, 
-                              y: 0, 
-                              scale: 1
-                            }}
-                            transition={{ 
-                              duration: 0.3, 
-                              ease: "easeOut"
-                            }}
-                            className={`mb-6 flex items-start gap-3 ${message.type === 'caller' ? 'flex-row' : 'flex-row-reverse'}`}
-                          >
-                            {/* Avatar */}
-                            <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                              message.type === 'caller' 
-                                ? 'bg-purple-600' 
-                                : 'bg-slate-700 shadow-lg shadow-purple-500/30'
-                            }`}>
-                              {message.type === 'caller' ? (
-                                <User className="w-4 h-4 text-white" />
-                              ) : (
-                                <Bot className="w-4 h-4 text-purple-400" />
-                              )}
-                            </div>
-                            
-                            {/* Message bubble */}
-                            <motion.div
-                              whileHover={{ scale: 1.01 }}
-                              className={`max-w-[75%] p-3 md:p-4 rounded-lg shadow-md transition-all duration-200 ${
-                                message.type === 'caller'
-                                  ? 'bg-slate-700 text-white rounded-bl-sm'
-                                  : 'bg-slate-800 text-white rounded-br-sm'
-                              }`}
-                            >
-                              <div className="leading-relaxed text-sm md:text-base">{message.text}</div>
-                            </motion.div>
-                          </motion.div>
-                        ))}
-                      </AnimatePresence>
-                    </div>
-                  </TabsContent>
-                ))}
-              </Tabs>
             </div>
-          </Card>
-        </motion.div>
+          ))}
+        </div>
+
+        <button
+          onClick={resetDemo}
+          className="mt-4 text-sm px-4 py-2 border border-white rounded hover:bg-white hover:text-black transition"
+        >
+          Replay Conversation
+        </button>
       </div>
-    </motion.section>
+
+    </section>
   );
 };
 
