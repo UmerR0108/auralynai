@@ -173,11 +173,11 @@ const Contact = () => {
             </motion.p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             {/* Contact Form */}
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <Card className="p-8 bg-card/30 backdrop-blur-sm border-border/30">
@@ -321,66 +321,6 @@ const Contact = () => {
                   </motion.div>
                 </form>
               </Card>
-            </motion.div>
-
-            {/* Contact Information */}
-            <motion.div
-              className="space-y-6"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <Card className="p-8 bg-card/30 backdrop-blur-sm border-border/30">
-                <h2 className="text-2xl font-bold mb-6 text-foreground">Get in touch</h2>
-                <p className="text-muted-foreground mb-8">
-                  Have questions about Auralyn AI? We're here to help. Reach out through any of the channels below 
-                  and our team will get back to you promptly.
-                </p>
-
-                <div className="space-y-6">
-                  {contactInfo.map((info, index) => (
-                    <motion.div
-                      key={index}
-                      className="flex items-start space-x-4 p-4 rounded-lg hover:bg-primary/5 transition-colors duration-300"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-                      whileHover={{ x: 5 }}
-                    >
-                      <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <info.icon className="w-6 h-6 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground">{info.title}</h3>
-                        <p className="text-foreground mb-1">{info.content}</p>
-                        <p className="text-sm text-muted-foreground">{info.subtitle}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </Card>
-
-              {/* Additional CTA */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.2 }}
-              >
-                <Card className="p-6 bg-gradient-hero border-0 text-primary-foreground">
-                  <h3 className="text-xl font-bold mb-3">Ready to get started?</h3>
-                  <p className="mb-4 opacity-90">
-                    Book a personalized demo and see how Auralyn AI can transform your business operations.
-                  </p>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Button variant="outline" className="w-full bg-background/10 border-primary-foreground/20 text-primary-foreground hover:bg-background/20">
-                      Schedule Demo
-                    </Button>
-                  </motion.div>
-                </Card>
-              </motion.div>
             </motion.div>
           </div>
         </div>

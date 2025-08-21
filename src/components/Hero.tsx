@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import AnimatedCosmicBackground from "@/components/AnimatedCosmicBackground";
 import { motion } from "framer-motion";
 import ContactFormModal from "./ContactFormModal";
 
 const Hero = () => {
+  const navigate = useNavigate();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -81,7 +83,7 @@ const Hero = () => {
               variant="hero" 
               size="lg" 
               className="px-8 py-6 text-lg"
-              onClick={() => setIsContactModalOpen(true)}
+              onClick={() => navigate('/contact')}
             >
               Book Consultation
             </Button>

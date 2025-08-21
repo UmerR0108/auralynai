@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
@@ -6,6 +7,7 @@ import ParticleField from "./ParticleField";
 import ContactFormModal from "./ContactFormModal";
 
 const CallToAction = () => {
+  const navigate = useNavigate();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   return (
     <motion.section 
@@ -62,7 +64,7 @@ const CallToAction = () => {
                     variant="hero" 
                     size="lg" 
                     className="px-10 py-6 text-base"
-                    onClick={() => setIsContactModalOpen(true)}
+                    onClick={() => navigate('/contact')}
                   >
                     Book Consultation
                   </Button>
@@ -72,7 +74,7 @@ const CallToAction = () => {
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Button variant="outline" size="lg" className="px-10 py-6 text-base">
+                  <Button variant="outline" size="lg" className="px-10 py-6 text-base" onClick={() => navigate('/contact')}>
                     Contact Sales
                   </Button>
                 </motion.div>

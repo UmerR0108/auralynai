@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import ContactFormModal from "./ContactFormModal";
 
 const Navigation = () => {
+  const navigate = useNavigate();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   return (
     <motion.nav 
@@ -79,7 +81,7 @@ const Navigation = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Button variant="ghost" className="hidden md:inline-flex">
+            <Button variant="ghost" className="hidden md:inline-flex" onClick={() => navigate('/contact')}>
               Contact Sales
             </Button>
           </motion.div>
@@ -90,7 +92,7 @@ const Navigation = () => {
           >
             <Button 
               variant="hero"
-              onClick={() => setIsContactModalOpen(true)}
+              onClick={() => navigate('/contact')}
             >
               Book Demo
             </Button>
