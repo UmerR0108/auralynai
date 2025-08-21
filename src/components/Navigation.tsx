@@ -26,6 +26,10 @@ const Navigation = () => {
 
   const handleLogoClick = () => {
     navigate('/');
+    // Always scroll to top after navigation
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   };
   return (
     <motion.nav 
