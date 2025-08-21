@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Message {
   type: 'caller' | 'auralyn';
@@ -163,61 +164,157 @@ const InteractiveDemo = () => {
   }, [hasAutoStarted, isPlaying]);
 
   return (
-    <section id="live-demo" className="py-16 bg-gray-900 text-white">
+    <motion.section 
+      id="live-demo" 
+      className="py-16 md:py-24 relative overflow-hidden"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true, margin: "-100px" }}
+    >
       <div className="max-w-4xl mx-auto px-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">Auralyn Ai — Live call</h2>
-          <div className="text-green-400 font-mono text-sm">{formatTime(timer)}</div>
-        </div>
-        <p className="text-sm text-gray-400 mb-6">Static preview</p>
-
-        <div className="flex space-x-2 mb-4">
-          {industries.map((industry) => (
-            <button
-              key={industry.id}
-              onClick={() => setActiveIndustry(industry.id)}
-              className={`px-3 py-1 rounded text-sm transition ${
-                activeIndustry === industry.id
-                  ? 'bg-white text-black'
-                  : 'bg-gray-800 text-white hover:bg-gray-700'
-              }`}
-            >
-              {industry.name}
-            </button>
-          ))}
-        </div>
-
-        <div 
-          ref={chatContainerRef}
-          className="bg-gray-800 p-4 rounded-lg h-96 overflow-y-auto space-y-2"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
         >
-          {messages.map((message, index) => (
-            <div key={index} className={`flex ${message.type === 'auralyn' ? 'justify-end' : 'justify-start'}`}>
-              <div
-                className={`inline-block px-4 py-2 max-w-[70%] rounded-lg text-sm message-bubble ${
-                  message.type === 'caller' 
-                    ? 'bg-purple-500 text-white caller' 
-                    : 'bg-gray-700 text-white auralyn'
-                }`}
-                style={{
-                  animation: 'popIn 0.4s ease-out forwards'
-                }}
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            See AuralynAI in Action
+          </h2>
+          <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+            Watch how our AI receptionist handles real customer conversations across different industries
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="relative"
+        >
+          {/* Enhanced container with frosted glass effect */}
+          <div className="bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl shadow-2xl shadow-purple-500/10 overflow-hidden relative">
+            {/* Gradient accent border */}
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-purple-500/20 p-[1px] rounded-2xl">
+              <div className="bg-slate-900/60 backdrop-blur-md rounded-2xl h-full"></div>
+            </div>
+            
+            <div className="relative p-6">
+              {/* Enhanced header with gradient accents */}
+              <div className="flex items-center justify-between mb-6 bg-slate-800/30 backdrop-blur-sm rounded-xl p-4 border border-slate-600/30">
+                <div className="flex items-center gap-3">
+                  <motion.div 
+                    className="bg-emerald-400 w-3 h-3 rounded-full shadow-lg shadow-emerald-400/50"
+                    animate={{ 
+                      boxShadow: [
+                        "0 0 8px rgba(52, 211, 153, 0.5)",
+                        "0 0 16px rgba(52, 211, 153, 0.8)",
+                        "0 0 8px rgba(52, 211, 153, 0.5)"
+                      ]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  ></motion.div>
+                  <span className="text-white font-semibold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    Auralyn Ai — Live call
+                  </span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="text-emerald-400 text-sm font-mono font-semibold tracking-wider shadow-lg">
+                    {formatTime(timer)}
+                  </span>
+                  <motion.button
+                    onClick={resetDemo}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="text-sm px-4 py-2 bg-transparent border border-purple-400/60 text-purple-300 rounded-lg hover:bg-purple-500/20 hover:border-purple-400 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25"
+                  >
+                    Replay Conversation
+                  </motion.button>
+                </div>
+              </div>
+
+              <p className="text-sm text-slate-400 mb-6 text-center">Static preview</p>
+
+              {/* Enhanced tabs */}
+              <div className="flex flex-wrap gap-2 mb-6 justify-center">
+                {industries.map((industry) => (
+                  <motion.button
+                    key={industry.id}
+                    onClick={() => setActiveIndustry(industry.id)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`px-4 py-2 rounded-lg text-sm transition-all duration-300 ${
+                      activeIndustry === industry.id
+                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30 border border-purple-400/50'
+                        : 'bg-slate-800/50 text-slate-300 hover:bg-slate-700/70 hover:text-white border border-slate-600/30 hover:border-slate-500/50'
+                    }`}
+                  >
+                    {industry.name}
+                  </motion.button>
+                ))}
+              </div>
+
+              {/* Enhanced chat window */}
+              <div 
+                ref={chatContainerRef}
+                className="bg-slate-950/40 backdrop-blur-sm rounded-xl p-6 min-h-[400px] max-h-[500px] overflow-y-auto border border-slate-700/30 shadow-inner shadow-purple-500/10"
+                style={{ scrollBehavior: 'smooth' }}
               >
-                {message.text}
+                <AnimatePresence mode="popLayout">
+                  {messages.map((message, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ 
+                        opacity: 0, 
+                        y: 20, 
+                        scale: 0.85
+                      }}
+                      animate={{ 
+                        opacity: 1, 
+                        y: 0, 
+                        scale: 1
+                      }}
+                      transition={{ 
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                        duration: 0.4
+                      }}
+                      className={`mb-6 flex ${message.type === 'auralyn' ? 'justify-end' : 'justify-start'}`}
+                    >
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        initial={{ boxShadow: "0 0 0px rgba(168, 85, 247, 0)" }}
+                        animate={{ 
+                          boxShadow: index === messages.length - 1 
+                            ? [
+                                "0 0 0px rgba(168, 85, 247, 0)",
+                                "0 0 20px rgba(168, 85, 247, 0.3)",
+                                "0 0 0px rgba(168, 85, 247, 0)"
+                              ]
+                            : "0 0 0px rgba(168, 85, 247, 0)"
+                        }}
+                        transition={{ duration: 1.5, times: [0, 0.5, 1] }}
+                        className={`inline-block px-4 py-3 max-w-[75%] rounded-xl text-sm shadow-lg transition-all duration-300 ${
+                          message.type === 'caller' 
+                            ? 'bg-purple-500/70 backdrop-blur-sm text-white shadow-purple-500/30 border border-purple-400/30' 
+                            : 'bg-slate-700/70 backdrop-blur-sm text-white shadow-slate-700/30 border border-slate-600/30'
+                        }`}
+                      >
+                        {message.text}
+                      </motion.div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
               </div>
             </div>
-          ))}
-        </div>
-
-        <button
-          onClick={resetDemo}
-          className="mt-4 text-sm px-4 py-2 border border-white rounded hover:bg-white hover:text-black transition"
-        >
-          Replay Conversation
-        </button>
+          </div>
+        </motion.div>
       </div>
-
-    </section>
+    </motion.section>
   );
 };
 
