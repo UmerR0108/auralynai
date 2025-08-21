@@ -43,7 +43,7 @@ const Navigation = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <motion.img 
-            src="/lovable-uploads/bc80b8cc-d9da-4ea3-9803-f356f17cd733.png" 
+            src="/lovable-uploads/2049dcb5-8a8f-4c59-84a2-d3e0170e27c3.png" 
             alt="Auralyn AI Logo" 
             className="w-8 h-8"
             whileHover={{ scale: 1.1, rotate: 5 }}
