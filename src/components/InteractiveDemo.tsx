@@ -88,6 +88,7 @@ const InteractiveDemo = () => {
   const [typingText, setTypingText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
+  const chatContainerRef = React.useRef<HTMLDivElement>(null);
 
   const currentIndustry = industries.find(industry => industry.id === activeIndustry);
 
@@ -106,6 +107,16 @@ const InteractiveDemo = () => {
     setTypingText("");
     setIsTyping(false);
   };
+
+  // Auto-scroll to bottom when new messages are added
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [messages, isTyping]);
 
   useEffect(() => {
     if (!isPlaying || !currentIndustry || currentMessageIndex >= currentIndustry.conversation.length) {
@@ -239,24 +250,42 @@ const InteractiveDemo = () => {
 
                 {industries.map((industry) => (
                 <TabsContent key={industry.id} value={industry.id} className="mt-0">
-                    <div className="bg-slate-950/50 rounded-xl p-4 md:p-6 min-h-[350px] md:min-h-[400px] max-h-[500px] overflow-y-auto border border-slate-600/30">
+                    <div 
+                      ref={chatContainerRef}
+                      className="bg-slate-950/70 rounded-xl p-4 md:p-6 min-h-[350px] md:min-h-[400px] max-h-[500px] overflow-y-auto border border-slate-600/30 scroll-smooth"
+                      style={{ scrollBehavior: 'smooth' }}
+                    >
                       <AnimatePresence>
                         {messages.map((message, index) => (
                           <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: 0.4, type: "spring", bounce: 0.3 }}
+                            initial={{ 
+                              opacity: 0, 
+                              y: 30, 
+                              scale: 0.3,
+                              transformOrigin: message.type === 'caller' ? 'bottom left' : 'bottom right'
+                            }}
+                            animate={{ 
+                              opacity: 1, 
+                              y: 0, 
+                              scale: 1
+                            }}
+                            transition={{ 
+                              duration: 0.6, 
+                              type: "spring", 
+                              stiffness: 260,
+                              damping: 20
+                            }}
                             className={`mb-4 flex ${message.type === 'caller' ? 'justify-start' : 'justify-end'}`}
                           >
                             <div
-                              className={`max-w-[85%] sm:max-w-[80%] p-3 md:p-4 rounded-2xl shadow-lg ${
+                              className={`max-w-[70%] sm:max-w-[75%] p-3 md:p-4 rounded-lg shadow-lg ${
                                 message.type === 'caller'
-                                  ? 'bg-slate-700 text-slate-100 rounded-bl-md border border-slate-600'
-                                  : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-br-md'
+                                  ? 'bg-[#B388FF] text-white rounded-bl-sm'
+                                  : 'bg-[#1F1F1F] text-white rounded-br-sm'
                               }`}
                             >
-                              <div className="text-xs opacity-70 mb-1 font-medium">
+                              <div className="text-xs opacity-80 mb-1 font-medium">
                                 {message.type === 'caller' ? 'Customer' : 'AuralynAI'}
                               </div>
                               <div className="leading-relaxed">{message.text}</div>
@@ -267,13 +296,27 @@ const InteractiveDemo = () => {
                       
                       {isTyping && (
                         <motion.div
-                          initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          transition={{ duration: 0.4, type: "spring", bounce: 0.3 }}
+                          initial={{ 
+                            opacity: 0, 
+                            y: 30, 
+                            scale: 0.3,
+                            transformOrigin: 'bottom right'
+                          }}
+                          animate={{ 
+                            opacity: 1, 
+                            y: 0, 
+                            scale: 1
+                          }}
+                          transition={{ 
+                            duration: 0.6, 
+                            type: "spring", 
+                            stiffness: 260,
+                            damping: 20
+                          }}
                           className="mb-4 flex justify-end"
                         >
-                          <div className="max-w-[85%] sm:max-w-[80%] p-3 md:p-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-br-md shadow-lg">
-                            <div className="text-xs opacity-70 mb-1 font-medium">AuralynAI</div>
+                          <div className="max-w-[70%] sm:max-w-[75%] p-3 md:p-4 rounded-lg bg-[#1F1F1F] text-white rounded-br-sm shadow-lg">
+                            <div className="text-xs opacity-80 mb-1 font-medium">AuralynAI</div>
                             <div className="leading-relaxed">{typingText}<span className="animate-pulse">|</span></div>
                           </div>
                         </motion.div>
