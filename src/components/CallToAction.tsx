@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import ParticleField from "./ParticleField";
+import ContactFormModal from "./ContactFormModal";
 
 const CallToAction = () => {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   return (
     <motion.section 
       id="contact" 
@@ -55,7 +58,12 @@ const CallToAction = () => {
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Button variant="hero" size="lg" className="px-10 py-6 text-base">
+                  <Button 
+                    variant="hero" 
+                    size="lg" 
+                    className="px-10 py-6 text-base"
+                    onClick={() => setIsContactModalOpen(true)}
+                  >
                     Book Consultation
                   </Button>
                 </motion.div>
@@ -73,6 +81,12 @@ const CallToAction = () => {
           </Card>
         </motion.div>
       </div>
+      
+      <ContactFormModal 
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+        title="Book Your Consultation"
+      />
     </motion.section>
   );
 };

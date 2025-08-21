@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import ContactFormModal from "./ContactFormModal";
 
 const Navigation = () => {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   return (
     <motion.nav 
       className="fixed top-0 left-0 right-0 z-50 bg-background/10 backdrop-blur-md border-b border-border/20"
@@ -85,12 +88,21 @@ const Navigation = () => {
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <Button variant="hero">
+            <Button 
+              variant="hero"
+              onClick={() => setIsContactModalOpen(true)}
+            >
               Book Demo
             </Button>
           </motion.div>
         </motion.div>
       </div>
+      
+      <ContactFormModal 
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+        title="Book Your Demo"
+      />
     </motion.nav>
   );
 };

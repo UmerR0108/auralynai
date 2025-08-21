@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import AnimatedCosmicBackground from "@/components/AnimatedCosmicBackground";
 import { motion } from "framer-motion";
+import ContactFormModal from "./ContactFormModal";
 
 const Hero = () => {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Cosmic Background */}
@@ -74,7 +77,12 @@ const Hero = () => {
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <Button variant="hero" size="lg" className="px-8 py-6 text-lg">
+            <Button 
+              variant="hero" 
+              size="lg" 
+              className="px-8 py-6 text-lg"
+              onClick={() => setIsContactModalOpen(true)}
+            >
               Book Consultation
             </Button>
           </motion.div>
@@ -103,6 +111,12 @@ const Hero = () => {
       
       {/* Bottom fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-15"></div>
+      
+      <ContactFormModal 
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+        title="Book Your Consultation"
+      />
     </section>
   );
 };
