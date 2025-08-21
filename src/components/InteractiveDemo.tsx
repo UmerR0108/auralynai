@@ -83,6 +83,7 @@ const InteractiveDemo = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [timer, setTimer] = useState(0);
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const currentIndustry = industries.find(industry => industry.id === activeIndustry);
@@ -100,11 +101,26 @@ const InteractiveDemo = () => {
     setTimer(0);
   };
 
-  const resetDemo = () => {
+  const resetDemo = async () => {
+    setIsResetting(true);
     setMessages([]);
     setCurrentMessageIndex(0);
     setIsPlaying(false);
     setTimer(0);
+    
+    // Scroll to top of chat container
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+    
+    // Brief delay for smooth transition
+    setTimeout(() => {
+      setIsResetting(false);
+      startDemo();
+    }, 500);
   };
 
   // Timer effect - counts up every second when playing
@@ -228,11 +244,23 @@ const InteractiveDemo = () => {
                   </span>
                   <motion.button
                     onClick={resetDemo}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-sm px-4 py-2 bg-transparent border border-purple-400/60 text-purple-300 rounded-lg hover:bg-purple-500/20 hover:border-purple-400 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25"
+                    disabled={isResetting}
+                    whileHover={{ scale: isResetting ? 1 : 1.05 }}
+                    whileTap={{ scale: isResetting ? 1 : 0.95 }}
+                    className={`text-sm px-4 py-2 bg-transparent border border-purple-400/60 text-purple-300 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25 ${
+                      isResetting 
+                        ? 'opacity-50 cursor-not-allowed' 
+                        : 'hover:bg-purple-500/20 hover:border-purple-400 hover:text-white'
+                    }`}
                   >
-                    Replay Conversation
+                    {isResetting ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 border border-purple-300 border-t-transparent rounded-full animate-spin"></div>
+                        Resetting...
+                      </div>
+                    ) : (
+                      'Replay Conversation'
+                    )}
                   </motion.button>
                 </div>
               </div>
